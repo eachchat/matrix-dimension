@@ -12,6 +12,7 @@ import { BridgeStore } from "../../db/BridgeStore";
 import { BotStore } from "../../db/BotStore";
 import { ROLE_USER } from "../security/MatrixSecurity";
 import config from "../../config";
+import { LogService } from "matrix-bot-sdk";
 
 export interface IntegrationsResponse {
     widgets: Widget[],
@@ -98,12 +99,19 @@ export class DimensionIntegrationsService {
     @Path("supportedFunction")
     @Security(ROLE_USER)
     public async getSupportedFunction(): Promise<SupportedIntegrationStateResponse> {
-        return {
-            Widgets: config.defaultState.Widgets,
-            Bots: config.defaultState.Bots.stata,
-            ComplexBots: config.defaultState.Bots.stata,
-            Bridges: config.defaultState.Bridges,
+        let supportedState = {
+            Widgets: true,
+            Bots: true,
+            ComplexBots: true,
+            Bridges: true,
         }
+        if(config.defaultState) {
+            supportedState.Widgets = config.defaultState.Widgets;
+            supportedState.Bots = config.defaultState.Bots.stata;
+            supportedState.Widgets = config.defaultState.Bots.stata;
+            supportedState.Widgets = config.defaultState.Bridges;
+        }
+        return supportedState;
     }
 
     @GET
