@@ -510,5 +510,6 @@
 	"Checking client version...": "正在检查客户端版本。。。",
 	"Your client is too old to use this widget, sorry": "您的客户太老，无法使用此挂件，抱歉",
 	"Please accept the prompt to verify your identity": "请接受提示以验证您的身份",
-	"Error loading policy": "加载策略时出错"
+	"Error loading policy": "加载策略时出错",
+	"Integration manager": "集成管理器"
 }

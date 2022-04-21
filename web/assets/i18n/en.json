@@ -508,5 +508,6 @@
 	"Checking client version...": "Checking client version...",
 	"Your client is too old to use this widget, sorry": "Your client is too old to use this widget, sorry",
 	"Please accept the prompt to verify your identity": "Please accept the prompt to verify your identity",
-	"Error loading policy": "Error loading policy"
+	"Error loading policy": "Error loading policy",
+	"Integration manager": "Integration manager"
 }
