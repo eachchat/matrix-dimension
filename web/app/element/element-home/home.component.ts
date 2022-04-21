@@ -211,6 +211,16 @@ export class ElementHomeComponent {
             .isRoomEncrypted(this.roomId)
             .then((payload) => {
                 this.isRoomEncrypted = payload.response;
+                return this.integrationsApi.getSupportedIntegrationsState();
+            })
+            .then((response) => {
+                let newCategory = {};
+                for(const [key, value] of Object.entries(this.categoryMap)) {
+                    if(response[key]) {
+                        newCategory[key] = value;
+                    }
+                }
+                this.categoryMap = newCategory;
                 return this.integrationsApi.getIntegrations(this.roomId);
             })
             .then((response) => {

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AuthedApi } from "../authed-api";
-import { FE_IntegrationsResponse } from "../../models/dimension-responses";
+import { FE_IntegrationsResponse, FE_SupportedIntegrationsResponse } from "../../models/dimension-responses";
 import { FE_Integration } from "../../models/integration";
 import { HttpClient } from "@angular/common/http";
 
@@ -8,6 +8,10 @@ import { HttpClient } from "@angular/common/http";
 export class IntegrationsApiService extends AuthedApi {
     constructor(http: HttpClient) {
         super(http);
+    }
+
+    public getSupportedIntegrationsState(): Promise<FE_SupportedIntegrationsResponse> {
+        return this.authedGet<FE_SupportedIntegrationsResponse>("/api/v1/dimension/integrations/supportedFunction").toPromise();
     }
 
     public getIntegrations(roomId: string): Promise<FE_IntegrationsResponse> {

@@ -10,12 +10,12 @@ import { HttpClient } from "@angular/common/http";
 })
 export class AppComponent {
     constructor(public translate: TranslateService, public http: HttpClient) {
-        translate.addLangs(["en", "de"]);
-        translate.setDefaultLang("en");
-        if (navigator.language === "de") {
-            translate.use("de");
-        } else {
-            translate.use("en");
-        }
+        translate.addLangs(["en", "de", "zh_Hans"]);
+        translate.setDefaultLang("zh_Hans");
+        // if (navigator.language === "de") {
+        //     translate.use("de");
+        // } else {
+        //     translate.use("en");
+        // }
     }
 }

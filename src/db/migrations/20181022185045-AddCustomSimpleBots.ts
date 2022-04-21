@@ -1,5 +1,8 @@
+import { LogService } from "matrix-bot-sdk";
 import { QueryInterface } from "sequelize";
 import { DataType } from "sequelize-typescript";
+import * as randomString from "random-string";
+import config from "../../config";
 
 export default {
     up: (queryInterface: QueryInterface) => {
@@ -14,7 +17,27 @@ export default {
                 "isPublic": {type: DataType.BOOLEAN, allowNull: false},
                 "userId": {type: DataType.STRING, allowNull: false},
                 "accessToken": {type: DataType.STRING, allowNull: false},
-            }));
+            }))
+            .then(() => {
+                if(config.defaultState.Bots.bots && config.defaultState.Bots.bots.length > 0) {
+                    for(let {UserId, Description, name, AvatarURL, AccessToken, isPublic, isEnabled} of config.defaultState.Bots.bots) {
+                        LogService.info("AddCustomSimpleBots", "name is ", name);
+                        LogService.info("AddCustomSimpleBots", "avatarUrl is ", AvatarURL);
+                        queryInterface.bulkInsert("dimension_custom_simple_bots", [
+                            {
+                                type: `${"custom_"}${randomString({length: 32})}`,
+                                name: name,
+                                avatarUrl: AvatarURL,
+                                userId: UserId,
+                                accessToken: AccessToken,
+                                description: Description,
+                                isEnabled: isEnabled,
+                                isPublic: isPublic,
+                            },
+                        ])}
+                    }
+                }
+            );
     },
     down: (queryInterface: QueryInterface) => {
         return Promise.resolve()

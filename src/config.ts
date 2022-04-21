@@ -42,6 +42,22 @@ export interface DimensionConfig {
     dimension: {
         publicUrl: string;
     };
+    defaultState: {
+        Widgets: boolean
+        Bots: {
+            stata: boolean
+            bots: {
+                UserId: string
+                Description: string
+                name: string
+                AvatarURL: string
+                AccessToken: string
+                isPublic: true
+                isEnabled: true
+            }[]
+        }
+        Bridges: boolean
+    }
 }
 
 //TODO: We should better use the .get function from node config

@@ -27,7 +27,7 @@
     <!-- CATEGORIES               -->
     <!-- ------------------------ -->
     <div *ngFor="let category of getCategories()">
-        <h3 *ngIf="getIntegrationsIn(category).length > 0">{{category}}</h3>
+        <h3 *ngIf="getIntegrationsIn(category).length > 0">{{category | translate}}</h3>
         <my-integration-bag [integrations]="getIntegrationsIn(category)"
                             (integrationClicked)="modifyIntegration($event)"></my-integration-bag>
     </div>

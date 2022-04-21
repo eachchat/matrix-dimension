@@ -11,12 +11,20 @@ import { Bridge } from "../../integrations/Bridge";
 import { BridgeStore } from "../../db/BridgeStore";
 import { BotStore } from "../../db/BotStore";
 import { ROLE_USER } from "../security/MatrixSecurity";
+import config from "../../config";
 
 export interface IntegrationsResponse {
     widgets: Widget[],
     bots: SimpleBot[],
     complexBots: ComplexBot[],
     bridges: Bridge[],
+}
+
+export interface SupportedIntegrationStateResponse {
+    Widgets: boolean,
+    Bots: boolean,
+    ComplexBots: boolean,
+    Bridges: boolean,
 }
 
 /**
@@ -84,6 +92,18 @@ export class DimensionIntegrationsService {
         const bots = await NebStore.listComplexBots(userId, roomId);
         Cache.for(CACHE_INTEGRATIONS).put("complex_bots_" + roomId, bots);
         return bots;
+    }
+
+    @GET
+    @Path("supportedFunction")
+    @Security(ROLE_USER)
+    public async getSupportedFunction(): Promise<SupportedIntegrationStateResponse> {
+        return {
+            Widgets: config.defaultState.Widgets,
+            Bots: config.defaultState.Bots.stata,
+            ComplexBots: config.defaultState.Bots.stata,
+            Bridges: config.defaultState.Bridges,
+        }
     }
 
     @GET
