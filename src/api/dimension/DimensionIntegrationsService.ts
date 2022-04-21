@@ -104,12 +104,14 @@ export class DimensionIntegrationsService {
             Bots: true,
             ComplexBots: true,
             Bridges: true,
+            Sticker: true,
         }
         if(config.defaultState) {
             supportedState.Widgets = config.defaultState.Widgets;
             supportedState.Bots = config.defaultState.Bots.stata;
-            supportedState.Widgets = config.defaultState.Bots.stata;
-            supportedState.Widgets = config.defaultState.Bridges;
+            supportedState.ComplexBots = config.defaultState.Bots.stata;
+            supportedState.Bridges = config.defaultState.Bridges;
+            supportedState.Sticker = config.defaultState.Sticker;
         }
         return supportedState;
     }

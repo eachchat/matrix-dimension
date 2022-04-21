@@ -57,6 +57,7 @@ export interface DimensionConfig {
             }[]
         }
         Bridges: boolean
+        Sticker: boolean
     }
 }
 

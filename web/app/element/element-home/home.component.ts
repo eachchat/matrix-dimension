@@ -38,6 +38,7 @@ export class ElementHomeComponent {
     private requestedIntegrationId: string = null;
     public integrationsForCategory: { [category: string]: FE_Integration[] } = {};
     private categoryMap: { [categoryName: string]: string[] } = CATEGORY_MAP;
+    private supportSticker: boolean; 
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -144,7 +145,12 @@ export class ElementHomeComponent {
     }
 
     public getCategories(): string[] {
+        console.log("this.categoryMap ", this.categoryMap);
         return Object.keys(this.categoryMap);
+    }
+
+    public isStickerSupported(): boolean {
+        return this.supportSticker;
     }
 
     public getIntegrationsIn(category: string): FE_Integration[] {
@@ -215,6 +221,7 @@ export class ElementHomeComponent {
             })
             .then((response) => {
                 let newCategory = {};
+                this.supportSticker = response["Sticker"];
                 for(const [key, value] of Object.entries(this.categoryMap)) {
                     if(response[key]) {
                         newCategory[key] = value;
