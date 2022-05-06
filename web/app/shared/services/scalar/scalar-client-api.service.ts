@@ -15,11 +15,20 @@ import { EditableWidget } from "../../models/widget";
 @Injectable()
 export class ScalarClientApiService {
 
-    private static actionMap: { [key: string]: { resolve: (obj: any) => void, reject: (obj: any) => void } } = {};
+    private static actionMap: { [key: string]: { resolve: (obj: any) => void, reject: (obj: any) => void, timestamp:number } } = {};
 
-    public static getAndRemoveActionHandler(requestKey: string): { resolve: (obj: any) => void, reject: (obj: any) => void } {
+    public static getAndRemoveActionHandler(requestKey: string, hasResponse=false): { resolve: (obj: any) => void, reject: (obj: any) => void, timestamp: number } {
+        console.log("===== hasResponse ", hasResponse);
         const handler = ScalarClientApiService.actionMap[requestKey];
-        ScalarClientApiService.actionMap[requestKey] = null;
+        if(hasResponse) {
+            ScalarClientApiService.actionMap[requestKey] = null;
+        }
+        for(const item in ScalarClientApiService.actionMap) {
+            console.log("-------item ", ScalarClientApiService.actionMap[item]);
+            if(ScalarClientApiService.actionMap[item] && ScalarClientApiService.actionMap[item].timestamp - new Date().getMilliseconds() > 3 * 60 * 1000) {
+                ScalarClientApiService.actionMap[item] = null;
+            }
+        }
         return handler;
     }
 
@@ -122,6 +131,7 @@ export class ScalarClientApiService {
 
     private callAction(action, payload): Promise<any> {
         const requestKey = randomString({length: 20});
+        const requestTime = new Date().getMilliseconds();
         return new Promise((resolve, reject) => {
             if (!window.opener) {
                 // Mimic an error response from scalar
@@ -131,7 +141,8 @@ export class ScalarClientApiService {
 
             ScalarClientApiService.actionMap[requestKey] = {
                 resolve: resolve,
-                reject: reject
+                reject: reject,
+                timestamp: requestTime,
             };
 
             const request = JSON.parse(JSON.stringify(payload));
@@ -145,12 +156,16 @@ export class ScalarClientApiService {
 
 // Register the event listener here to ensure it gets created
 window.addEventListener("message", event => {
+    console.log("[yiqia-web] scalar-client-api listener event", event);
+    // if(event.data.action !== "can_send_event") {
+    //     window.alert("[yiqia-web] scalar-client-api listener event" + JSON.stringify(event.data))
+    // }
     if (!event.data) return;
 
     const requestKey = event.data["request_id"];
     if (!requestKey) return;
 
-    const action = ScalarClientApiService.getAndRemoveActionHandler(requestKey);
+    const action = ScalarClientApiService.getAndRemoveActionHandler(requestKey, !!event.data.response);
     if (!action) return;
 
     if (event.data.response && event.data.response.error) action.reject(event.data);
