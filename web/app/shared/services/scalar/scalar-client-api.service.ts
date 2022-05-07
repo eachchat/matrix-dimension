@@ -24,7 +24,7 @@ export class ScalarClientApiService {
             ScalarClientApiService.actionMap[requestKey] = null;
         }
         for(const item in ScalarClientApiService.actionMap) {
-            console.log("-------item ", ScalarClientApiService.actionMap[item]);
+            // console.log("-------item ", ScalarClientApiService.actionMap[item]);
             if(ScalarClientApiService.actionMap[item] && ScalarClientApiService.actionMap[item].timestamp - new Date().getMilliseconds() > 3 * 60 * 1000) {
                 ScalarClientApiService.actionMap[item] = null;
             }
@@ -156,7 +156,7 @@ export class ScalarClientApiService {
 
 // Register the event listener here to ensure it gets created
 window.addEventListener("message", event => {
-    console.log("[yiqia-web] scalar-client-api listener event", event);
+    console.log("[yiqia-web] scalar-client-api listener event", event.data);
     // if(event.data.action !== "can_send_event") {
     //     window.alert("[yiqia-web] scalar-client-api listener event" + JSON.stringify(event.data))
     // }
@@ -167,6 +167,8 @@ window.addEventListener("message", event => {
 
     const action = ScalarClientApiService.getAndRemoveActionHandler(requestKey, !!event.data.response);
     if (!action) return;
+
+    if(event.data.response === undefined) return;
 
     if (event.data.response && event.data.response.error) action.reject(event.data);
     else action.resolve(event.data);
