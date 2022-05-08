@@ -213,3 +213,40 @@ export async function doClientApiCall(method: string, endpoint: string, query?: 
         });
     });
 }
+
+export async function doClientApiCallWithUrl(boturl: string = "", method: string, endpoint: string, query?: object, body?: object | Buffer,contentType = "application/octet-stream"): Promise<any> {
+    let url = boturl;
+    LogService.info("matrix", "Doing client API call: " + url + endpoint);
+
+    const requestOptions = {
+        method: method,
+        url: url + endpoint,
+        qs: query,
+    };
+    if (Buffer.isBuffer(body)) {
+        requestOptions["body"] = body;
+        requestOptions["headers"] = {
+            "Content-Type": contentType,
+        };
+    } else {
+        requestOptions["json"] = true;
+        requestOptions["body"] = body;
+    }
+
+    return new Promise((resolve, reject) => {
+        request(requestOptions, (err, res, _body) => {
+            if (err) {
+                LogService.error("matrix", "Error calling " + endpoint);
+                LogService.error("matrix", err);
+                reject(err);
+            } else if (res.statusCode !== 200) {
+                LogService.error("matrix", "Got status code " + res.statusCode + " while calling client endpoint " + endpoint);
+                LogService.error("matrix", res.body);
+                reject(new Error("Error in request: invalid status code"));
+            } else {
+                if (typeof (res.body) === "string") res.body = JSON.parse(res.body);
+                resolve(res.body);
+            }
+        });
+    });
+}

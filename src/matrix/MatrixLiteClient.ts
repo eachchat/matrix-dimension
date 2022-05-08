@@ -1,4 +1,4 @@
-import { doClientApiCall } from "./helpers";
+import { doClientApiCall, doClientApiCallWithUrl } from "./helpers";
 import config from "../config";
 import * as request from "request";
 import { LogService } from "matrix-bot-sdk";
@@ -53,8 +53,9 @@ export class MatrixLiteClient {
         );
     }
 
-    public async leaveRoom(roomId: string): Promise<string> {
-        return doClientApiCall(
+    public async leaveRoom(roomId: string, botUrl): Promise<string> {
+        return doClientApiCallWithUrl(
+            botUrl,
             "POST",
             "/_matrix/client/r0/rooms/" + roomId + "/leave",
             {access_token: this.accessToken}
