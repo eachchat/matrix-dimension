@@ -110,3 +110,19 @@ bigbluebutton:
   # Usually this doen't need to be changed, however if your homeserver
   # is not able to reach t2bot.io then you should specify your own here.
   widgetAvatarUrl: "mxc://t2bot.io/be1650140620d8bb61a8cf5baeb05f24a734434c"
+
+# Configure for function default state
+defaultState:
+  Widgets: false
+  Bots: 
+    stata: true
+    bots:
+      - UserId: "@mailbot:i2.eachchat.net"
+        Description: "邮件通知"
+        name: "邮箱机器人"
+        AvatarURL: "mxc://workly.ai/IyEsvkttCiQtKDyKZCulSuwA"
+        AccessToken: "syt_bWFpbGJvdA_QNhTMkNaaodxQaVGVDtl_0jE1Ib"
+        isPublic: true
+        isEnabled: true
+  Bridges: false
+  Sticker: false
