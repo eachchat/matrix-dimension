@@ -168,7 +168,14 @@ window.addEventListener("message", event => {
     const action = ScalarClientApiService.getAndRemoveActionHandler(requestKey, !!event.data.response);
     if (!action) return;
 
-    if(event.data.response === undefined) return;
+    if(event.data?.action === "membership_state" && event.data.response === undefined) {
+        console.log("30s start");
+        setTimeout(() => {
+            console.log("action now");
+            action?.resolve(event.data);
+        }, 30000)
+        return;
+    }
 
     if (event.data.response && event.data.response.error) action.reject(event.data);
     else action.resolve(event.data);
