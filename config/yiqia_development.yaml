@@ -121,7 +121,7 @@ defaultState:
         Description: "邮件通知"
         name: "邮箱机器人"
         AvatarURL: "mxc://workly.ai/IyEsvkttCiQtKDyKZCulSuwA"
-        AccessToken: "syt_bWFpbGJvdA_GTVUacOzStgvEevmQmxp_3KZfZF"
+        AccessToken: "syt_bWFpbGJvdA_QNhTMkNaaodxQaVGVDtl_0jE1Ib"
         isPublic: true
         isEnabled: true
   Bridges: false
