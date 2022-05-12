@@ -121,7 +121,7 @@ defaultState:
         Description: "邮箱助手将为您推送新邮件，以免您遗漏重要通知"
         name: "邮箱助手"
         AvatarURL: "mxc://workly.ai/sukYHyLeVpBCIUfrJtTPSKDs"
-        AccessToken: "syt_bWFpbGJvdA_CWIPZGkSFokTEpPgcAVM_05ApQa"
+        AccessToken: "syt_bWFpbGJvdA_GTVUacOzStgvEevmQmxp_3KZfZF"
         isPublic: true
         isEnabled: true
   Bridges: false
