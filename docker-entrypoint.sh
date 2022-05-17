@@ -2,8 +2,8 @@
 
 echo "Starting matrix-dimension"
 
-if [ -f "/data/config.yaml" ]; then
-	cp /data/config.yaml /home/node/matrix-dimension/config/production.yaml
+if [ -f "/config/config.yaml" ]; then
+	cp /config/config.yaml /home/node/matrix-dimension/config/production.yaml
 	NODE_ENV=production exec node build/app/index.js
 else
 	cp /home/node/matrix-dimension/config/default.yaml /data/config.yaml
