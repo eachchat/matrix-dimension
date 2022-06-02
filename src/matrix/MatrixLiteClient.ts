@@ -53,6 +53,17 @@ export class MatrixLiteClient {
         );
     }
 
+    public async getWellknown(userId: string): Promise<string> {
+        LogService.debug("[getWellknown] ", "userId ", userId);
+        const homeserverName = "https://" + userId.split(":").slice(-1);
+        LogService.debug("[getWellknown] ", "homeserverName ", homeserverName);
+        return doClientApiCallWithUrl(
+            homeserverName,
+            "GET",
+            "/.well-known/matrix/client",
+        );
+    }
+
     public async leaveRoom(roomId: string, botUrl): Promise<string> {
         return doClientApiCallWithUrl(
             botUrl,

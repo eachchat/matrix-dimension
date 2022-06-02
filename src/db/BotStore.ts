@@ -68,8 +68,8 @@ export class BotStore {
         try {
             const client = new MatrixLiteClient(record.accessToken);
             const botUid = record.userId;
-            const botHomeserverUrl = "https://" + botUid.split(":").slice(-1);
-            await client.leaveRoom(roomId, botHomeserverUrl);
+            const homeserverUrl = await client.getWellknown(botUid);
+            await client.leaveRoom(roomId, homeserverUrl["m.homeserver"]["base_url"]);
         } catch (e) {
             LogService.error("BotStore", "Error leaving room " + roomId + " for integration type " + type);
             LogService.error("BotStore", e);
